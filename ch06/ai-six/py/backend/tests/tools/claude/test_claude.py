@@ -47,7 +47,7 @@ class ClaudeToolTest(unittest.TestCase):
         
         # Verify the API was called correctly
         mock_client.messages.create.assert_called_once_with(
-            model='claude-sonnet-4-20250514',
+            model='claude-sonnet-4-6',
             max_tokens=1000,
             temperature=0.7,
             messages=[{"role": "user", "content": "test prompt"}]
@@ -68,14 +68,14 @@ class ClaudeToolTest(unittest.TestCase):
         # Test with custom parameters
         result = self.claude_tool.run(
             prompt="custom prompt",
-            model="claude-3-5-haiku-20241022",
+            model="claude-haiku-4-5-20251001",
             max_tokens=500,
             temperature=0.3
         )
         
         # Verify the API was called with custom parameters
         mock_client.messages.create.assert_called_once_with(
-            model='claude-3-5-haiku-20241022',
+            model='claude-haiku-4-5-20251001',
             max_tokens=500,
             temperature=0.3,
             messages=[{"role": "user", "content": "custom prompt"}]

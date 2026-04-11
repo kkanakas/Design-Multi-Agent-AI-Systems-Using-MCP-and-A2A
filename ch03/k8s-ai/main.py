@@ -1,7 +1,7 @@
 import json
 import os
+import subprocess
 
-import sh
 import anthropic
 
 client = anthropic.Anthropic(api_key=os.environ['ANTHROPIC_API_KEY'])
@@ -59,8 +59,11 @@ def send(messages: list[dict]) -> str:
         tool_results = []
         for block in tool_use_blocks:
             if block.name == "kubectl":
-                cmd = block.input["cmd"].split()
-                result = sh.kubectl(cmd)
+                result = subprocess.run(
+                    f"kubectl {block.input['cmd']}",
+                    shell=True, capture_output=True, text=True
+                )
+                result = result.stdout or result.stderr
                 tool_results.append({
                     "type": "tool_result",
                     "tool_use_id": block.id,
@@ -75,7 +78,10 @@ def send(messages: list[dict]) -> str:
 def main():
     print("☸️ Interactive Kubernetes Chat. Type 'exit' to quit.\n" + "-" * 52)
     messages = []
-    while (user_input := input("👤 You: ")).lower() != "exit":
+    while True:
+        user_input = input("👤 You: ")
+        if user_input.lower() == "exit":
+            break
         messages.append({"role": "user", "content": user_input})
         response = send(messages)
         messages.append({"role": "assistant", "content": response})

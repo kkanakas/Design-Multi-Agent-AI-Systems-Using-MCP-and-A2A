@@ -18,7 +18,7 @@ class Claude(Tool):
                     name='model',
                     type='string',
                     description="""See https://docs.anthropic.com/en/docs/about-claude/models/overview. 
-                                   Default is claude-sonnet-4-20250514
+                                   Default is claude-sonnet-4-6
                     """),
                 Parameter(
                     name='max_tokens',
@@ -43,7 +43,7 @@ class Claude(Tool):
             return "Error: Claude API key not configured. Set 'api_key' in tool_config for claude tool"
         
         prompt = kwargs['prompt']
-        model = kwargs.get('model', 'claude-sonnet-4-20250514')
+        model = kwargs.get('model', 'claude-sonnet-4-6')
         max_tokens = kwargs.get('max_tokens', 1000)
         temperature = kwargs.get('temperature', 0.7)
 
