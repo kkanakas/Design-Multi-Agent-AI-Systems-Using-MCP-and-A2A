@@ -2,58 +2,83 @@ import json
 import os
 
 import sh
-from openai import OpenAI
+import anthropic
 
-client = OpenAI(api_key=os.environ['OPENAI_API_KEY'])
-model_name = "gpt-4o"
+client = anthropic.Anthropic(api_key=os.environ['ANTHROPIC_API_KEY'])
+model_name = "claude-sonnet-4-6"
+system_prompt = "You are a Kubernetes expert ready to help"
 tools = [{
-    "type": "function",
-    "function": {
-        "name": "kubectl",
-        "description": "execute a kubectl command against the current k8s cluster",
-        "parameters": {
-            "type": "object",
-            "properties": {
-                "cmd": {
-                    "type": "string",
-                    "description": (
-                        "the kubectl command to execute (without kubectl, just "
-                        "the arguments). For example, 'get pods'"
-                    ),
-                },
+    "name": "kubectl",
+    "description": "execute a kubectl command against the current k8s cluster",
+    "input_schema": {
+        "type": "object",
+        "properties": {
+            "cmd": {
+                "type": "string",
+                "description": (
+                    "the kubectl command to execute (without kubectl, just "
+                    "the arguments). For example, 'get pods'"
+                ),
             },
-            "required": ["cmd"],
         },
+        "required": ["cmd"],
     },
 }]
 
 
-def send(messages: list[dict[str, any]]) -> str:
-    response = client.chat.completions.create(
-        model=model_name, messages=messages, tools=tools, tool_choice="auto")
-    r = response.choices[0].message
-    if r.tool_calls:
-        message = dict(
-            role=r.role,
-            content=r.content,
-            tool_calls=[dict(id=t.id, type=t.type, function=dict(name=t.function.name, arguments=t.function.arguments)
-                             ) for t in r.tool_calls if t.function])
-        messages.append(message)
-        for t in r.tool_calls:
-            if t.function.name == 'kubectl':
-                cmd = json.loads(t.function.arguments)['cmd'].split()
+def send(messages: list[dict]) -> str:
+    response = client.messages.create(
+        model=model_name,
+        max_tokens=8096,
+        system=system_prompt,
+        messages=messages,
+        tools=tools,
+    )
+
+    text_content = ""
+    tool_use_blocks = []
+    for block in response.content:
+        if block.type == "text":
+            text_content = block.text
+        elif block.type == "tool_use":
+            tool_use_blocks.append(block)
+
+    if tool_use_blocks:
+        assistant_content = []
+        if text_content:
+            assistant_content.append({"type": "text", "text": text_content})
+        for block in tool_use_blocks:
+            assistant_content.append({
+                "type": "tool_use",
+                "id": block.id,
+                "name": block.name,
+                "input": block.input,
+            })
+        messages.append({"role": "assistant", "content": assistant_content})
+
+        tool_results = []
+        for block in tool_use_blocks:
+            if block.name == "kubectl":
+                cmd = block.input["cmd"].split()
                 result = sh.kubectl(cmd)
-                messages.append(dict(tool_call_id=t.id, role="tool", name=t.function.name, content=result))
+                tool_results.append({
+                    "type": "tool_result",
+                    "tool_use_id": block.id,
+                    "content": str(result),
+                })
+        messages.append({"role": "user", "content": tool_results})
         return send(messages)
-    return r.content.strip()
+
+    return text_content.strip()
 
 
 def main():
     print("☸️ Interactive Kubernetes Chat. Type 'exit' to quit.\n" + "-" * 52)
-    messages = [{'role': 'system', 'content': 'You are a Kubernetes expert ready to help'}]
-    while (user_input := input("👤 You: ")).lower() != 'exit':
-        messages.append(dict(role="user", content=user_input))
+    messages = []
+    while (user_input := input("👤 You: ")).lower() != "exit":
+        messages.append({"role": "user", "content": user_input})
         response = send(messages)
+        messages.append({"role": "assistant", "content": response})
         print(f"🤖 AI: {response}\n----------")
 
 

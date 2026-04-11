@@ -1,4 +1,4 @@
-openai
+anthropic
 sh
 slack_bolt
 python-dotenv
@@ -9,4 +9,3 @@ ollama
 pyyaml
 toml
 debugpy
-anthropic

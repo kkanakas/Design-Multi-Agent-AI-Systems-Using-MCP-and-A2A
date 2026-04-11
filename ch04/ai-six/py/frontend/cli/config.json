@@ -1,13 +1,13 @@
 {
-  "default_model_id": "gpt-4o",
+  "default_model_id": "claude-sonnet-4-6",
   "tools_dir": "${HOME}/git/ai-six/py/backend/tools",
   "mcp_tools_dir": "${HOME}/git/ai-six/py/backend/mcp_tools",
   "memory_dir": "${HOME}/git/ai-six/memory/cli",
   "checkpoint_interval": 3,
   "provider_config": {
-    "openai": {
-      "api_key": "${OPENAI_API_KEY}",
-      "default_model": "gpt-4o"
+    "anthropic": {
+      "api_key": "${ANTHROPIC_API_KEY}",
+      "default_model": "claude-sonnet-4-6"
     },
     "ollama": {
       "model": "qwen2.5-coder:32b"
