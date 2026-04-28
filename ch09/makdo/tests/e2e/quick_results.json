@@ -4,7 +4,7 @@
   "tests": {
     "agent_creation": {
       "success": true,
-      "output": "\ud83e\uddea Testing minimal AI-6 agent creation...\n\u2705 Config created: Test Agent\nOpenAI API key set: Yes\n\u2705 Agent created successfully!\nLLM providers: 1\n",
+      "output": "\ud83e\uddea Testing minimal AI-6 agent creation...\n\u2705 Config created: Test Agent\nAnthropic API key set: Yes\n\u2705 Agent created successfully!\nLLM providers: 1\n",
       "error": null
     },
     "config_loading": {

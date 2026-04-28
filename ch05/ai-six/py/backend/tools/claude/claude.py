@@ -1,6 +1,7 @@
 import anthropic
 from backend.object_model import Tool, Parameter
 
+
 class Claude(Tool):
     def __init__(self):
         desc = """Send inference requests to Anthropic Claude LLM. Useful for getting a second opinion or 
@@ -33,28 +34,31 @@ class Claude(Tool):
         )
         self.api_key = None
         self.client = None
-    
+
     def configure(self, config: dict) -> None:
         """Configure the Claude tool with API key."""
         if 'api_key' in config:
-            self.client = anthropic.Anthropic(api_key=config['api_key'])
-    
+            self.api_key = config['api_key']
+            self.client = anthropic.Anthropic(api_key=self.api_key)
+
     def run(self, **kwargs) -> str:
         if self.client is None:
             return "Error: Claude API key not configured. Set 'api_key' in tool_config for claude tool"
-        
+
         prompt = kwargs['prompt']
         model = kwargs.get('model', 'claude-sonnet-4-6')
         max_tokens = kwargs.get('max_tokens', 1000)
         temperature = kwargs.get('temperature', 0.7)
 
-        response = self.client.messages.create(
-            model=model,
-            max_tokens=max_tokens,
-            temperature=temperature,
-            messages=[
-                {"role": "user", "content": prompt}
-            ]
-        )
-            
-        return response.content[0].text
+        try:
+            response = self.client.messages.create(
+                model=model,
+                max_tokens=max_tokens,
+                temperature=temperature,
+                messages=[
+                    {"role": "user", "content": prompt}
+                ]
+            )
+            return response.content[0].text
+        except Exception as e:
+            return f"Error calling Claude API: {e}"

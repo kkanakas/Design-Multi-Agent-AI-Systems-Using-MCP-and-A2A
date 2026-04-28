@@ -25,13 +25,13 @@ def test_slack_agent():
     config_dict = {
         "name": "MAKDO_Slack_Bot_Test",
         "description": "Test Slack Bot agent",
-        "default_model_id": "gpt-4o",
+        "default_model_id": "claude-sonnet-4-6",
         "tools_dirs": [],
         "mcp_tools_dirs": ["src/makdo/mcp_tools"],
         "system_prompt": "You are a Slack bot. Post messages to #makdo-devops channel.",
         "provider_config": {
-            "openai": {
-                "api_key": os.getenv("OPENAI_API_KEY")
+            "anthropic": {
+                "api_key": os.getenv("ANTHROPIC_API_KEY")
             }
         }
     }

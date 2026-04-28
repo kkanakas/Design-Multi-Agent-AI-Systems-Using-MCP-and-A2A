@@ -93,7 +93,7 @@ class MAKDOTest:
             # Print ALL tool names to debug
             logger.info("All tools:")
             for tool_name in sorted(self.coordinator.tool_dict.keys()):
-                # Check if tool name is valid OpenAI pattern
+                # Check if tool name matches provider naming constraints
                 import re
                 if not re.match(r'^[a-zA-Z0-9_-]+$', tool_name):
                     logger.error(f"   ❌ INVALID TOOL NAME: {tool_name}")

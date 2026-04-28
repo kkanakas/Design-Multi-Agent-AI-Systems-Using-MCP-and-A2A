@@ -1,7 +1,7 @@
 # MAKDO Slack Agent Configuration
 name: "MAKDO Slack Bot"
 description: "User communication and notification interface agent"
-default_model_id: "gpt-4o"
+default_model_id: "claude-sonnet-4-6"
 
 # System Prompt
 system_prompt: |

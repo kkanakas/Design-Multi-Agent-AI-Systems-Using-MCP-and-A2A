@@ -1,4 +1,5 @@
 import os
+import sys
 import argparse
 import pathology.path
 
@@ -50,7 +51,7 @@ def main():
         possible_env_path = os.path.join(script_dir, ".env")
         if os.path.exists(possible_env_path):
             env_file_path = possible_env_path
-            print(f"Using .env file from {env_file_path}")
+            print(f"Using .env file from {env_file_path}", file=sys.stderr)
 
     try:
         # Create engine from configuration, optionally loading a session

@@ -28,7 +28,7 @@ agents:
   coordinator:
     name: "MAKDO Coordinator"
     description: "Main orchestrator and task dispatcher"
-    model_id: "gpt-4o"
+    model_id: "claude-sonnet-4-6"
     polling_interval: 60
 
 # Monitoring Configuration

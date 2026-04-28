@@ -17,20 +17,20 @@ def test_minimal_agent():
     config = Config(
         name="Test Agent",
         description="Test agent",
-        default_model_id="gpt-4o",
+        default_model_id="claude-sonnet-4-6",
         tools_dirs=["/Users/gigi/git/ai-six/py/ai_six/tools"],
         mcp_tools_dirs=["/Users/gigi/git/ai-six/py/ai_six/mcp_tools"],
         memory_dir="data/memory",
         provider_config={
-            "openai": {
-                "api_key": os.getenv("OPENAI_API_KEY"),
-                "default_model": "gpt-4o"
+            "anthropic": {
+                "api_key": os.getenv("ANTHROPIC_API_KEY"),
+                "default_model": "claude-sonnet-4-6"
             }
         }
     )
 
     print(f"✅ Config created: {config.name}")
-    print(f"OpenAI API key set: {'Yes' if config.provider_config.get('openai', {}).get('api_key') else 'No'}")
+    print(f"Anthropic API key set: {'Yes' if config.provider_config.get('anthropic', {}).get('api_key') else 'No'}")
 
     # Test agent creation
     try:

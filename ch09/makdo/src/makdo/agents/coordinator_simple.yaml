@@ -1,16 +1,16 @@
 # Simplified MAKDO Coordinator Configuration
 name: "MAKDO Coordinator"
 description: "Main orchestrator and task dispatcher for multi-cluster Kubernetes operations"
-default_model_id: "gpt-4o"
+default_model_id: "claude-sonnet-4-6"
 tools_dirs: ["/Users/gigi/git/ai-six/py/ai_six/tools"]
 mcp_tools_dirs: ["/Users/gigi/git/ai-six/py/ai_six/mcp_tools"]
 memory_dir: "data/memory"
 
 # Provider configuration
 provider_config:
-  openai:
-    api_key: ${OPENAI_API_KEY}
-    default_model: "gpt-4o"
+  anthropic:
+    api_key: ${ANTHROPIC_API_KEY}
+    default_model: "claude-sonnet-4-6"
 
 # MCP Servers Configuration
 mcp_servers:
@@ -89,7 +89,7 @@ system_prompt: |
 agents:
   - name: "MAKDO_Slack_Bot"
     description: "Pure I/O agent for reading from and writing to #makdo Slack channel"
-    default_model_id: "gpt-4o"
+    default_model_id: "claude-sonnet-4-6"
     system_prompt: |
       You are the MAKDO Slack Bot, a simple I/O agent that handles Slack channel operations.
 

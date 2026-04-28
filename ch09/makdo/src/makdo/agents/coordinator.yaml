@@ -1,7 +1,7 @@
 # MAKDO Coordinator Configuration for AI-6
 name: "MAKDO Coordinator"
 description: "Main orchestrator and task dispatcher for multi-cluster Kubernetes operations"
-default_model_id: "gpt-4o"
+default_model_id: "claude-sonnet-4-6"
 # Coordinator delegates to sub-agents only - no direct tool access
 tools_dirs: ["/Users/gigi/git/ai-six/py/ai_six/tools/memory"]
 mcp_tools_dirs: ["/Users/gigi/git/ai-six/py/ai_six/mcp_tools"]
@@ -9,8 +9,8 @@ memory_dir: "data/memory"
 
 # Provider configuration
 provider_config:
-  openai:
-    api_key: ${OPENAI_API_KEY}
+  anthropic:
+    api_key: ${ANTHROPIC_API_KEY}
 
 # Coordinator should NOT have direct A2A access - only coordinates agents
 # A2A servers are configured on sub-agents (Analyzer, Fixer)
@@ -60,7 +60,7 @@ system_prompt: |
 agents:
   - name: "MAKDO_Analyzer"
     description: "Cluster health assessment and problem identification agent"
-    default_model_id: "gpt-4o"
+    default_model_id: "claude-sonnet-4-6"
     enable_memory: false  # Disable session persistence to prevent stale session data
     a2a_servers:
       - name: "kind-makdo-test"
@@ -157,7 +157,7 @@ agents:
 
   - name: "MAKDO_Fixer"
     description: "Safe cluster modification and remediation agent"
-    default_model_id: "gpt-4o"
+    default_model_id: "claude-sonnet-4-6"
     enable_memory: false  # Disable session persistence to prevent stale session data
     a2a_servers:
       - name: "kind-makdo-test"
@@ -264,7 +264,7 @@ agents:
 
   - name: "MAKDO_Slack_Bot"
     description: "User communication and notification interface agent"
-    default_model_id: "gpt-4o"
+    default_model_id: "claude-sonnet-4-6"
     tools_dirs: []
     mcp_tools_dirs: ["src/makdo/mcp_tools"]
     system_prompt: |

@@ -22,7 +22,7 @@ MAKDO consists of 4 specialized AI-6 agents:
 ## Prerequisites
 
 1. **Kubernetes Clusters** - Local kind clusters or any Kubernetes clusters
-2. **OpenAI API Key** - For AI-6 agent operations
+2. **Anthropic API Key** - For AI-6 agent operations
 3. **Slack Bot Credentials** - For Slack integration (optional)
 4. **Go** - For building Slack MCP server
 5. **Node.js/npm** - For potential npm packages
@@ -40,7 +40,7 @@ uv sync
 
 # Copy and configure environment
 cp .env.example .env
-# Edit .env with your OpenAI API key
+# Edit .env with your Anthropic API key
 
 # Copy and configure system settings
 cp config/makdo.example.yaml config/makdo.yaml
@@ -95,7 +95,7 @@ uv run makdo
 
 ### `.env`
 Contains environment variables:
-- `OPENAI_API_KEY` - Your OpenAI API key
+- `ANTHROPIC_API_KEY` - Your Anthropic API key
 - `AI6_BOT_TOKEN` - Slack bot token (if using Slack)
 - `K8S_AI_BASE_URL` - k8s-ai server URL
 - Other Slack and system configuration
@@ -148,8 +148,8 @@ makdo/
 
 ### Common Issues
 
-1. **Missing OpenAI API Key**
-   - Set `OPENAI_API_KEY` in `.env` file
+1. **Missing Anthropic API Key**
+   - Set `ANTHROPIC_API_KEY` in `.env` file
 
 2. **k8s-ai Server Not Running**
    - Start with: `uv run k8s-ai-server --context kind-k8s-ai`

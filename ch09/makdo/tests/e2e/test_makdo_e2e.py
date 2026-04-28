@@ -740,9 +740,9 @@ class MAKDOTester:
             # Pass current environment to subprocess (includes vars from .env loaded in load_config)
             env = os.environ.copy()
 
-            # Ensure OPENAI_API_KEY is explicitly set in case it wasn't loaded from .env
-            if "OPENAI_API_KEY" not in env:
-                self.logger.error("OPENAI_API_KEY not found in environment!")
+            # Ensure ANTHROPIC_API_KEY is explicitly set in case it wasn't loaded from .env
+            if "ANTHROPIC_API_KEY" not in env:
+                self.logger.error("ANTHROPIC_API_KEY not found in environment!")
                 return False
 
             # Set faster health check interval for testing (15 seconds instead of 60)

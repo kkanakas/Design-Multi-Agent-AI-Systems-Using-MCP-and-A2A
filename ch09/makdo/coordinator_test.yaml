@@ -1,14 +1,14 @@
 name: "MAKDO Coordinator Test"
 description: "Simple test coordinator"
-default_model_id: "gpt-4o"
+default_model_id: "claude-sonnet-4-6"
 tools_dirs: ["/Users/gigi/git/ai-six/py/ai_six/tools"]
 mcp_tools_dirs: ["/Users/gigi/git/ai-six/py/ai_six/mcp_tools"]
 memory_dir: "data/memory"
 
 provider_config:
-  openai:
-    api_key: ${OPENAI_API_KEY}
-    default_model: "gpt-4o"
+  anthropic:
+    api_key: ${ANTHROPIC_API_KEY}
+    default_model: "claude-sonnet-4-6"
 
 system_prompt: |
   You are a simple test coordinator for MAKDO.

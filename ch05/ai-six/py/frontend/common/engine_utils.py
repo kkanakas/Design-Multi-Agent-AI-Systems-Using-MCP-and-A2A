@@ -36,10 +36,24 @@ def create_from_config(
     else:
         load_dotenv()
 
+    # Pre-create the memory directory so Config.invariant() doesn't fail on a
+    # first run before the directory has been created yet.
+    import json as _json
+    try:
+        with open(config_path) as _f:
+            _raw = _json.load(_f)
+        _mem = _raw.get("memory_dir", "")
+        import re as _re
+        _mem = _re.sub(r'\$\{([^}]+)\}', lambda m: os.environ.get(m.group(1), ''), _mem)
+        if _mem:
+            Path(_mem).mkdir(parents=True, exist_ok=True)
+    except Exception:
+        pass
+
     # Load the configuration
     config = Config.from_file(config_path)
-    
-    # Create required directories if they don't exist
+
+    # Ensure memory directory exists (catches any paths resolved inside Config)
     memory_dir = Path(config.memory_dir)
     memory_dir.mkdir(parents=True, exist_ok=True)
     

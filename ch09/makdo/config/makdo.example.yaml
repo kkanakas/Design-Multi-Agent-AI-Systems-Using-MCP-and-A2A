@@ -30,24 +30,24 @@ agents:
   coordinator:
     name: "MAKDO Coordinator"
     description: "Main orchestrator and task dispatcher for multi-cluster Kubernetes operations"
-    model_id: "gpt-4o"
+    model_id: "claude-sonnet-4-6"
     polling_interval: 60  # seconds
 
   analyzer:
     name: "MAKDO Analyzer"
     description: "Cluster health assessment and problem identification agent"
-    model_id: "gpt-4o"
+    model_id: "claude-sonnet-4-6"
 
   fixer:
     name: "MAKDO Fixer"
     description: "Safe cluster modification and remediation agent"
-    model_id: "gpt-4o"
+    model_id: "claude-sonnet-4-6"
     require_approval: true  # Require human approval for critical operations
 
   slack:
     name: "MAKDO Slack Bot"
     description: "User communication and notification interface agent"
-    model_id: "gpt-4o"
+    model_id: "claude-sonnet-4-6"
 
 # Operational Parameters
 operations:

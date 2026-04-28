@@ -60,10 +60,10 @@ check_prerequisites() {
         exit 1
     fi
 
-    # Check if OPENAI_API_KEY is set
+    # Check if ANTHROPIC_API_KEY is set
     source .env
-    if [[ -z "$OPENAI_API_KEY" ]]; then
-        error "OPENAI_API_KEY not set in .env file"
+    if [[ -z "$ANTHROPIC_API_KEY" ]]; then
+        error "ANTHROPIC_API_KEY not set in .env file"
         exit 1
     fi
 

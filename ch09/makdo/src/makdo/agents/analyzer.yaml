@@ -1,7 +1,7 @@
 # MAKDO Analyzer Agent Configuration
 name: "MAKDO Analyzer"
 description: "Cluster health assessment and problem identification agent"
-default_model_id: "gpt-4o"
+default_model_id: "claude-sonnet-4-6"
 
 # System Prompt
 system_prompt: |
